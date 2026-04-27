@@ -10,9 +10,10 @@ import com.p2p.domain.Loan;
 public class LoanServiceTest {
 
     private static final Logger logger = Logger.getLogger(LoanServiceTest.class);
-    // TC-01: Verifikasi Borrower
+    
     @Test
     void shouldRejectLoanWhenBorrowerNotVerified() {
+        logger.info("Menjalankan TC-01: Verifikasi Borrower");
         Borrower borrower = new Borrower(false, 700);
         LoanService loanService = new LoanService();
         BigDecimal amount = BigDecimal.valueOf(1000);
@@ -20,11 +21,13 @@ public class LoanServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             loanService.createLoan(borrower, amount);
         });
+        logger.info("TC-01 Sukses");
     }
 
-    // TC-02: Validasi Jumlah Pinjaman
+    
     @Test
     void shouldRejectLoanWhenAmountIsZeroOrNegative() {
+        logger.info("Menjalankan TC-02: Validasi Amount <=0");
         Borrower validBorrower = new Borrower(true, 700);
         LoanService loanService = new LoanService();
         BigDecimal invalidAmount = BigDecimal.ZERO; 
@@ -32,11 +35,13 @@ public class LoanServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             loanService.createLoan(validBorrower, invalidAmount);
         });
+        logger.info("TC-02 Sukses");
     }
 
-    // TC-03: Score Tinggi (>= 600) -> Status APPROVED
+    
     @Test
     void shouldApproveLoanWhenCreditScoreHigh() {
+        logger.info("Menjalankan TC-03: Score Tinggi (>=600)");
         Borrower highScoreBorrower = new Borrower(true, 700);
         LoanService loanService = new LoanService();
         BigDecimal amount = BigDecimal.valueOf(1000);
@@ -44,11 +49,13 @@ public class LoanServiceTest {
         Loan loan = loanService.createLoan(highScoreBorrower, amount);
 
         assertEquals(Loan.Status.APPROVED, loan.getStatus());
+        logger.info("TC-03 Sukses:");
     }
 
-    // TC-04: Score Rendah (< 600) -> Status REJECTED
+    
     @Test
     void shouldRejectLoanWhenCreditScoreLow() {
+        logger.info("Menjalankan TC-04: Score Rendah (<600)");
         Borrower lowScoreBorrower = new Borrower(true, 500);
         LoanService loanService = new LoanService();
         BigDecimal amount = BigDecimal.valueOf(1000);
@@ -56,5 +63,6 @@ public class LoanServiceTest {
         Loan loan = loanService.createLoan(lowScoreBorrower, amount);
 
         assertEquals(Loan.Status.REJECTED, loan.getStatus());
+        logger.info("TC-04 Sukses");
     }
 }
