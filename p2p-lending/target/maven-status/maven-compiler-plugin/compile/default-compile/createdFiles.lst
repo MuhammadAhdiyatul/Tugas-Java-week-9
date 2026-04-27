@@ -1,0 +1,4 @@
+com\p2p\domain\Borrower.class
+com\p2p\service\LoanService.class
+com\p2p\domain\Loan.class
+com\p2p\domain\Loan$Status.class
